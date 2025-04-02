@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title">전체 송금 내역</h1>
+    </div>
+    <div class="card-body">
+        {% if transactions %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>보낸 사람</th>
+                        <th>받은 사람</th>
+                        <th>금액</th>
+                        <th>일시</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in transactions %}
+                        <tr>
+                            <td>{{ transaction.sender }}</td>
+                            <td>{{ transaction.receiver }}</td>
+                            <td>{{ transaction.amount }} 체스머니</td>
+                            <td>{{ transaction.timestamp }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>송금 내역이 없습니다.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
