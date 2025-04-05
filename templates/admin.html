@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title">관리자 페이지</h1>
+    </div>
+    <div class="card-body">
+        <a href="{{ url_for('add_user') }}" class="btn btn-primary">회원 추가</a>
+        <a href="{{ url_for('all_transactions') }}" class="btn btn-primary">전체 송금 내역</a>
+        
+        <h2>회원 목록</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>아이디</th>
+                    <th>잔액</th>
+                    <th>역할</th>
+                    <th>관리</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user_id, user_data in users.items() %}
+                    <tr>
+                        <td>{{ user_id }}</td>
+                        <td>{{ user_data.balance }}</td>
+                        <td>{{ user_data.role }}</td>
+                        <td>
+                            <a href="{{ url_for('edit_user', user_id=user_id) }}" class="btn btn-primary">수정</a>
+                            {% if user_id != session.user_id %}
+                                <a href="{{ url_for('delete_user', user_id=user_id) }}" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>체스머니 송금 시스템</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="navbar-brand">체스제국 송금 시스템</a>
+        <ul class="navbar-nav">
+            {% if session.user_id %}
+                <li class="nav-item"><a href="{{ url_for('dashboard') }}" class="nav-link">대시보드</a></li>
+                <li class="nav-item"><a href="{{ url_for('transfer') }}" class="nav-link">송금</a></li>
+                <li class="nav-item"><a href="{{ url_for('qr_payment') }}" class="nav-link">QR 결제</a></li>
+                <li class="nav-item"><a href="{{ url_for('transactions') }}" class="nav-link">거래내역</a></li>
+                {% if session.role == 'admin' %}
+                    <li class="nav-item"><a href="{{ url_for('admin') }}" class="nav-link">관리자</a></li>
+                {% endif %}
+                <li class="nav-item"><a href="{{ url_for('change_password') }}" class="nav-link">비밀번호 변경</a></li>
+                <li class="nav-item"><a href="{{ url_for('logout') }}" class="nav-link">로그아웃</a></li>
+            {% else %}
+                <li class="nav-item"><a href="{{ url_for('login') }}" class="nav-link">로그인</a></li>
+                <li class="nav-item"><a href="{{ url_for('register') }}" class="nav-link">회원가입</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

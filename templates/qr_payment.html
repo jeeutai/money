@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title">QR 코드 결제</h1>
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <label for="qr-scanner" class="form-label">QR 코드 스캔</label>
+            <div id="qr-scanner" class="qr-scanner">
+                <!-- 실제 구현 시에는 여기에 QR 스캐너 컴포넌트가 들어갑니다 -->
+                <form id="qr-form" method="post" action="{{ url_for('qr_scan') }}">
+                    <input type="text" id="qr_data" name="qr_data" class="form-control" placeholder="QR 코드 데이터를 입력하세요. 카메라 앱에서 스캔된 결과를 붙여넣으세요. 제 실력으론 카메라를 불러오진 못합니다;;">
+                    <button type="submit" class="btn btn-primary">스캔 결과 확인</button>
+                </form>
+            </div>
+        </div>
+        
+        <form method="post">
+            <div class="form-group">
+                <label for="receiver" class="form-label">받는 사람 아이디</label>
+                <input type="text" id="receiver" name="receiver" class="form-control" value="{{ request.args.get('receiver', '') }}" required>
+            </div>
+            <div class="form-group">
+                <label for="amount" class="form-label">결제액</label>
+                <input type="number" id="amount" name="amount" min="1" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">결제하기</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
